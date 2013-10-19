@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+
+  "name": "Xeandr's TW Enhancer",
+  "description": "This extension adds extra functionality to TribalWars",
+  "version": "1.0",
+
+  "permissions": [
+    "http://en64.tribalwars.net/"
+  ],
+  
+  "background": {
+    "persistent": true,
+    "scripts": ["background.js"]
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["http://en64.tribalwars.net/game.php?*"],
+      "js": ["game_data.js"]
+    }
+  ]
+  
+}

@@ -20,7 +20,10 @@
     "content_scripts": [
         {
             "matches": ["http://en64.tribalwars.net/game.php?*"],
-            "js": ["game_data.js"]
+            "js": [
+                "jquery-2.0.3.min.js", 
+                "game_data.js"
+            ]
         },
         {
             "matches": ["http://en64.tribalwars.net/game.php?*screen=welcome*"],

@@ -1,24 +1,31 @@
 {
-  "manifest_version": 2,
+    "manifest_version": 2,
 
-  "name": "Xeandr's TW Enhancer",
-  "description": "This extension adds extra functionality to TribalWars",
-  "version": "1.0",
+    "name": "Xeandr's TW Enhancer",
+    "description": "This extension adds extra functionality to TribalWars",
+    "version": "1.0",
 
-  "permissions": [
-    "http://en64.tribalwars.net/"
-  ],
+    "permissions": [
+        "http://en64.tribalwars.net/"
+    ],
   
-  "background": {
-    "persistent": true,
-    "scripts": ["background.js"]
-  },
+    "background": {
+        "persistent": false,
+        "scripts": [
+            "background.js", 
+            "welcome/notifications/welcome-notifications-event.js"
+        ]
+    },
   
-  "content_scripts": [
-    {
-      "matches": ["http://en64.tribalwars.net/game.php?*"],
-      "js": ["game_data.js"]
-    }
-  ]
+    "content_scripts": [
+        {
+            "matches": ["http://en64.tribalwars.net/game.php?*"],
+            "js": ["game_data.js"]
+        },
+        {
+            "matches": ["http://en64.tribalwars.net/game.php?*screen=welcome*"],
+            "js": ["welcome/notifications/welcome-notifications.js"]
+        }
+    ]
   
 }

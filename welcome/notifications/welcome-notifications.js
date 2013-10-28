@@ -3,18 +3,18 @@ chrome.runtime.onMessage.addListener(onMessage);
 function onMessage(request, sender, sendResponse) {
     switch (request.type) {
         case "SCREEN":
-            if ( request.data != "welcome" ) return;
-            onWelcomeScreen(sender, request.game_data);
+            if ( request.data == "welcome" ) onWelcomeScreen(sender, request.game_data);
             break;
     }
 }
 
 function onWelcomeScreen(sender, game_data) {
+    var start = new Date();
     var data = parseWelcomeScreen();
-
-    chrome.runtime.sendMessage({type: "WELCOME_SCREEN_DATA", data: data}, function(response) {
-        console.log(response.message);
-    });
+    var end = new Date();
+    
+    console.log("Welcome screen parsed in " + (end.getTime() - start.getTime()) + " ms");
+    chrome.runtime.sendMessage({type: "WELCOME_SCREEN_DATA", data: data});
 }
 
 
@@ -91,7 +91,6 @@ function parseTribeActivityTableRow(row) {
             else activity.subtype = "regular";
             break;
         case "blue":
-            console.log(row);
             var hasAlly = 0;
             activity.type = "info";
             activity.source.player.id = $(links[0]).prop("href").match(/id=(\d+)/)[1];

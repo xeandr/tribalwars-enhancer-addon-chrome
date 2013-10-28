@@ -6,12 +6,14 @@
     "version": "1.0",
 
     "permissions": [
-        "http://en64.tribalwars.net/"
+        "http://en64.tribalwars.net/",
+        "storage"
     ],
   
     "background": {
-        "persistent": false,
+        "persistent": true,
         "scripts": [
+            "jquery-2.0.3.min.js", 
             "background.js", 
             "welcome/notifications/welcome-notifications-event.js"
         ]

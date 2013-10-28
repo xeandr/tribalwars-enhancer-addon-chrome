@@ -19,7 +19,5 @@ function onMessage(event) {
 }
 
 function onGameDataReceived(game_data) {
-    chrome.runtime.sendMessage({type: "GAME_DATA", data: game_data}, function(response) {
-        console.log(response.message);
-    });
+    chrome.runtime.sendMessage({type: "GAME_DATA", data: game_data});
 }

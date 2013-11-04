@@ -91,30 +91,53 @@ function parseTribeActivityTableRow(row) {
             else activity.subtype = "regular";
             break;
         case "blue":
+            console.log(row);
             var hasAlly = 0;
             activity.type = "info";
+            if (links.length == 0) {
+                activity.subtype = "deleted";
+                activity.text = $(row).find("td:eq(1)").text().trim();
+                break;
+            }
             activity.source.player.id = $(links[0]).prop("href").match(/id=(\d+)/)[1];
             activity.source.player.name = $(links[0]).text();
             activity.source.ally.name = $(links[0]).prop("title");
+            if (links.length == 1) {
+                if (activity.source.ally.name.length > 0) {
+                    activity.subtype = "joined";
+                } else {
+                    activity.subtype = "left";
+                }
+                break;
+            }
             if ($(links[1]).prop("href").indexOf("info_ally") > -1) {
                 activity.source.ally.id = $(links[1]).prop("href").match(/id=(\d+)/)[1];
                 activity.source.ally.tag = $(links[1]).text();
                 hasAlly = 1;
             }
             if ( links.length > 2 ) {
-                activity.subtype = "forum";
+                activity.subtype = "posted";
                 activity.target.forum.thread.id = $(links[1+hasAlly]).prop("href").match(/thread_id=(\d+)/)[1];
                 activity.target.forum.thread.name = $(links[1+hasAlly]).text();
                 activity.target.forum.id = $(links[2+hasAlly]).prop("href").match(/forum_id=(\d+)/)[1];
                 activity.target.forum.name = $(links[2+hasAlly]).text();
             } else {
-                activity.subtype = "change";
+                activity.subtype = "changed";
+                if ($(row).text().indexOf("invited") > -1)
+                    activity.subtype = "invited";
                 activity.target.player.id = $(links[1]).prop("href").match(/id=(\d+)/)[1];
                 activity.target.player.name = $(links[1]).text();
                 activity.target.ally.name = $(links[1]).prop("title");
             }
             break;
     }
-    activity.id = [activity.time, activity.type, activity.source.player.id, activity.target.village.id||activity.target.forum.thread.id].join("_");
+    if (color == "blue") console.log(activity);
+    activity.id = [
+        "notification", 
+        activity.time, 
+        activity.type, 
+        activity.source.player.id || activity.source.player.name, 
+        activity.target.village.id || activity.target.forum.thread.id
+    ].join("_");
     return activity;
 }
